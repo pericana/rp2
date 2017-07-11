@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2017 at 09:42 PM
+-- Generation Time: Jul 11, 2017 at 10:08 PM
 -- Server version: 5.7.14
 -- PHP Version: 5.6.25
 
@@ -36,9 +36,13 @@ CREATE TABLE `kategorije` (
 --
 
 INSERT INTO `kategorije` (`id`, `categoryName`) VALUES
-(17, 'Prva'),
+(36, 'temp4'),
 (20, 'Treca'),
-(21, 'nova');
+(21, 'nova'),
+(23, 'Zemljopis'),
+(35, 'temp3'),
+(33, 'tenp'),
+(34, 'temp2');
 
 -- --------------------------------------------------------
 
@@ -52,8 +56,8 @@ CREATE TABLE `korisnici` (
   `pass` varchar(100) COLLATE utf8_bin NOT NULL,
   `email` varchar(100) COLLATE utf8_bin NOT NULL,
   `userType` int(1) NOT NULL,
-  `bestResults` int(11) NOT NULL,
-  `bestResultsCategory` varchar(100) COLLATE utf8_bin NOT NULL
+  `bestResults` int(11) NOT NULL DEFAULT '0',
+  `bestResultsCategory` varchar(100) COLLATE utf8_bin NOT NULL DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -62,7 +66,8 @@ CREATE TABLE `korisnici` (
 
 INSERT INTO `korisnici` (`id`, `user`, `pass`, `email`, `userType`, `bestResults`, `bestResultsCategory`) VALUES
 (2, 'atrava', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'a@a.com', 1, 230, 'Sve kategorije'),
-(3, 'anatrava', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'a.bc@a.com', 1, 10, 'name');
+(3, 'anatrava', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'a.bc@a.com', 1, 10, 'name'),
+(4, 'ananeadmin', '3d4f2bf07dc1be38b20cd6e46949a1071f9d0e3d', 'ana@g.com', 2, 60, 'nova');
 
 -- --------------------------------------------------------
 
@@ -102,7 +107,11 @@ INSERT INTO `pitanja` (`id`, `question`, `questionType`, `questionScore`, `categ
 (17, 'samo pitanje', 1, 45, 17, '', 'Zagreb', 'Ovo je opet zagreb'),
 (18, 'Samo pitanje', 1, 45, 21, '', 'Zagreb', 'Ovo je opet zagreb'),
 (19, 'Izaberi zagreb', 2, 10, 21, '', '', 'Opet zagreb'),
-(20, 'Zagreb je glavnio  grad hrvatske', 4, 10, 21, '', 'true', 'Ovo je tocno');
+(20, 'Zagreb je glavnio  grad hrvatske', 4, 10, 21, '', 'true', 'Ovo je tocno'),
+(21, 'samo pitajklfhsadjkfas', 1, 60, 33, '', 'tocan', 'asffasdfsadfsda'),
+(22, 'Oov je pianje sa slikomasdfa sadkljfćas\r\nasfčkaćsdfkčćaskdf člsdkfčć asdlčfk člasdkfč ksadčfk p&scaron;we &scaron;psp&scaron;fk sčak čskfopk sfjiasf joisf', 3, 77, 34, 'slikeZaPitanja/1499805701374_780.jpg', 'tocan', 'obvbfsfs'),
+(23, 'ponudjenj', 2, 34, 35, '', '', 'treci je toacn'),
+(24, 'tocno jeeeee', 4, 12, 36, '', 'true', 'sadasd');
 
 -- --------------------------------------------------------
 
@@ -133,7 +142,11 @@ INSERT INTO `ponudjeniodgovori` (`id`, `questionId`, `textAnswer`, `isCorrect`) 
 (9, 19, 'Capljina', 0),
 (10, 19, 'Zagreb', 1),
 (11, 19, 'Osijek', 0),
-(12, 19, 'Vukovar', 0);
+(12, 19, 'Vukovar', 0),
+(13, 23, 'Prvo pitanje', 0),
+(14, 23, 'Drugo', 0),
+(15, 23, 'Tocan sam', 1),
+(16, 23, 'nisam', 0);
 
 --
 -- Indexes for dumped tables
@@ -171,22 +184,22 @@ ALTER TABLE `ponudjeniodgovori`
 -- AUTO_INCREMENT for table `kategorije`
 --
 ALTER TABLE `kategorije`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `korisnici`
 --
 ALTER TABLE `korisnici`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `pitanja`
 --
 ALTER TABLE `pitanja`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `ponudjeniodgovori`
 --
 ALTER TABLE `ponudjeniodgovori`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
