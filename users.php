@@ -20,14 +20,18 @@
 <div id="center">
 
     <?php
-        require_once "sidebar.php";
+        require_once "user_info.php";
     ?>
 
     <div id="main">
 
-        <h1> Korisnici </h1>
+        <div id="categoryAndUseMain">
 
-        <div id="users">
+            <h3> Korisnici </h3>
+
+            <table id="users">
+            </table>
+
         </div>
 
     </div>
@@ -105,14 +109,19 @@
         $("#users").empty();
 
         for(var i = 0; i < users.length; i++){
-
-            var p = $("<p>" + users[i].name + "</p>");
+            var tr = $("<tr></tr>");
+            var td = $("<td>" + users[i].name + "</td>");
+            td.css("width", "300px");
+            var td2 = $("<td></td>");
             if(users[i].userType != 1){
                 var button = $("<button class='makeAdmin'>Napravi adminom</button>");
                 button.val(users[i].id);
-                p.append(button);
+                button.css("margin-left", "17px");
+                td2.append(button);
             }
-            $("#users").append(p);
+            tr.append(td);
+            tr.append(td2);
+            $("#users").append(tr);
 
         }
 

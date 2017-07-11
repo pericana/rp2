@@ -120,7 +120,7 @@
 <div id="center">
 
     <?php
-        require_once "sidebar.php";
+        require_once "user_info.php";
     ?>
 
     <div id="main">
@@ -135,11 +135,11 @@
             ?>
         </div>
 
-        <h1> Dodajte pitanje </h1>
+        <h3> Dodajte pitanje </h3>
 
         <form method="post" action="addQuestion.php" enctype="multipart/form-data">
             <label for="questionType">Odaberite tip pitanja:</label>
-            <select name="questionType" id="questionType">
+            <select name="questionType" id="questionType" style="margin-left: 117px; width: 300px">
                 <option disabled selected value> -- izaberite opciju -- </option>
                 <option value="1">Samo pitanje</option>
                 <option value="2">Pitanje sa ponuđenim odgovorima</option>
@@ -147,9 +147,9 @@
                 <option value="4">Tocno - netocno</option>
             </select>
 
-            <div id="questionArea">
+            <table id="questionAreaTable">
 
-            </div>
+            </table>
         </form>
 
     </div>
@@ -188,75 +188,101 @@
     }
 
     $("#questionType").change(function () {
-        $("#questionArea").empty();
-        var questionTekstLabel = $("<label for='questionText'>Unesite pitanje</label>");
-        var questionTekst = $("<input type='text' id='questionText' name='questionText' placeholder='Upišite pitanje' />");
+        $("#questionAreaTable").empty();
 
-        var scoreLabel = $("<label for='score'>Unesite broj bodova (10 - 100)</label>");
-        var score = $("<input type='text' id='score' name='score' placeholder='Upišite broj bodova (10 - 100)' />");
+        var trQuestion = $("<tr></tr>");
+        var tdQquestionTekstLabel = $("<td><p>Unesite pitanje</p></td>");
+        var tdQuestionTekst = $("<td><textarea rows='5' colls='20' name='questionText' id='questionText' placeholder='Upišite pitanje'></textarea></td>");
+        trQuestion.append(tdQquestionTekstLabel);
+        trQuestion.append(tdQuestionTekst);
 
-        var categoryLabel = $("<label for='category'>Odaberite kategoriju</label>");
+        var trScore = $("<tr></tr>");
+        var tdScoreLabel = $("<td><p>Unesite broj bodova (10 - 100)</p></td>");
+        var tdScore = $("<td><input type='text' id='score' name='score' placeholder='Upišite broj bodova (10 - 100)' /></td>");
+        trScore.append(tdScoreLabel);
+        trScore.append(tdScore);
+
+        var trCategory = $("<tr></tr>");
+        var tdCategoryLabel = $("<td><p>Odaberite kategoriju</p></td>");
+        var tdCategorySelect = $("<td></td>");
         var categorySelect = $("<select id='category' name='category' />");
+        tdCategorySelect.append(categorySelect);
         for(var i = 0; i < categories.length; i++){
             var option = $("<option></option>");
             option.val(categories[i].id);
             option.html(categories[i].category);
             categorySelect.append(option);
         }
+        trCategory.append(tdCategoryLabel);
+        trCategory.append(tdCategorySelect);
 
-        $("#questionArea").append(categoryLabel);
-        $("#questionArea").append(categorySelect);
-        $("#questionArea").append($("<br/>"));
-        $("#questionArea").append(questionTekstLabel);
-        $("#questionArea").append(questionTekst);
-        $("#questionArea").append($("<br/>"));
-        $("#questionArea").append(scoreLabel);
-        $("#questionArea").append(score);
+        $("#questionAreaTable").append(trQuestion);
+        $("#questionAreaTable").append(trScore);
+        $("#questionAreaTable").append(trCategory);
 
         if($("#questionType option:selected").val() === "1" ){
-            var correctAnswerLabel = $("<label for='correctAnswer'>Unesite točan odgovor</label>");
-            var correctAnswer = $("<input type='text' id='correctAnswer' name='correctAnswer' placeholder='Upišite točan odgovor' />");
-            $("#questionArea").append($("<br/>"));
-            $("#questionArea").append(correctAnswerLabel);
-            $("#questionArea").append(correctAnswer);
+            var trCorectAnswer = $("<tr></tr>");
+            var tdCorrectAnswerLabel = $("<td><p>Unesite točan odgovor</p></td>");
+            var tdCorrectAnswer = $("<td><input type='text' id='correctAnswer' name='correctAnswer' placeholder='Upišite točan odgovor' /></td>");
+            trCorectAnswer.append(tdCorrectAnswerLabel);
+            trCorectAnswer.append(tdCorrectAnswer);
+            $("#questionAreaTable").append(trCorectAnswer);
         }else if($("#questionType option:selected").val() === "2"){
-            var answer1Label = $("<label for='answer1'>Unesite prvi ponuđeni odgovor</label>");
-            var answer2Label = $("<label for='answer2'>Unesite drugi ponuđeni odgovor</label>");
-            var answer3Label = $("<label for='answer3'>Unesite treći ponuđeni odgovor</label>");
-            var answer4Label = $("<label for='answer4'>Unesite četvrti ponuđeni odgovor</label>");
 
-            var answer1 = $("<input type='text' id='answer1' name='answer1' placeholder='Upišite prvi odgovor' />");
-            var answer2 = $("<input type='text' id='answer2' name='answer2' placeholder='Upišite drugi odgovor' />");
-            var answer3 = $("<input type='text' id='answer3' name='answer3' placeholder='Upišite treći odgovor' />");
-            var answer4 = $("<input type='text' id='answer4' name='answer4' placeholder='Upišite četvrti odgovor' />");
+            var trAnswer1 = $("<tr></tr>");
+            var trAnswer2 = $("<tr></tr>");
+            var trAnswer3 = $("<tr></tr>");
+            var trAnswer4 = $("<tr></tr>");
 
-            var radio1 = $("<input type='radio' id='answer1_radio' name='answer_radio' value='1' />");
-            var radio2 = $("<input type='radio' id='answer2_radio' name='answer_radio' value='2' />");
-            var radio3 = $("<input type='radio' id='answer3_radio' name='answer_radio' value='3' />");
-            var radio4 = $("<input type='radio' id='answer4_radio' name='answer_radio' value='4' />");
+            var tdAnswer1Label = $("<p><p>Unesite prvi ponuđeni odgovor</p></p>");
+            var tdAnswer2Label = $("<td><p>Unesite drugi ponuđeni odgovor</p></td>");
+            var tdAnswer3Label = $("<td><p>Unesite treći ponuđeni odgovor</p></td>");
+            var tdAnswer4Label = $("<td><p>Unesite četvrti ponuđeni odgovor</p></td>");
 
-            $("#questionArea").append($("<br/>"));
-            $("#questionArea").append(answer1Label);
-            $("#questionArea").append(answer1);
-            $("#questionArea").append("Tocan?");
-            $("#questionArea").append(radio1);
-            $("#questionArea").append($("<br/>"));
-            $("#questionArea").append(answer2Label);
-            $("#questionArea").append(answer2);
-            $("#questionArea").append("Tocan?");
-            $("#questionArea").append(radio2);
-            $("#questionArea").append($("<br/>"));
-            $("#questionArea").append(answer3Label);
-            $("#questionArea").append(answer3);
-            $("#questionArea").append("Tocan?");
-            $("#questionArea").append(radio3);
-            $("#questionArea").append($("<br/>"));
-            $("#questionArea").append(answer4Label);
-            $("#questionArea").append(answer4);
-            $("#questionArea").append("Tocan?");
-            $("#questionArea").append(radio4);
+            var tdAnswer1 = $("<td><input style='width: 190px; float: left' type='text' id='answer1' name='answer1' placeholder='Upišite prvi odgovor' /</td>");
+            var tdAnswer2 = $("<td><input style='width: 190px; float: left' type='text' id='answer2' name='answer2' style='float: left' placeholder='Upišite drugi odgovor' /></td>");
+            var tdAnswer3 = $("<td><input style='width: 190px; float: left' type='text' id='answer3' name='answer3' style='float: left' placeholder='Upišite treći odgovor' /></td>");
+            var tdAnswer4 = $("<td><input style='width: 190px; float: left' type='text' id='answer4' name='answer4' style='float: left' placeholder='Upišite četvrti odgovor' /></td>");
+
+            var tocan1 = $("<p style='margin-left:20px; float: left; width: 50px; line-height: 35px; vertical-align: middle'>Točan?</p>");
+            var tocan2 = $("<p style='margin-left:20px; float: left; width: 50px; line-height: 35px; vertical-align: middle'>Točan?</p>");
+            var tocan3 = $("<p style='margin-left:20px; float: left; width: 50px; line-height: 35px; vertical-align: middle'>Točan?</p>");
+            var tocan4 = $("<p style='margin-left:20px; float: left; width: 50px; line-height: 35px; vertical-align: middle'>Točan?</p>");
+
+            var radio1 = $("<input style='width: 20px; float: left' type='radio' id='answer1_radio' name='answer_radio' value='1' />");
+            var radio2 = $("<input style='width: 20px; float: left' type='radio' id='answer2_radio' name='answer_radio' value='2' />");
+            var radio3 = $("<input style='width: 20px; float: left' type='radio' id='answer3_radio' name='answer_radio' value='3' />");
+            var radio4 = $("<input style='width: 20px; float: left' type='radio' id='answer4_radio' name='answer_radio' value='4' />");
+
+            tdAnswer1.append(tocan1);
+            tdAnswer1.append(radio1);
+            tdAnswer2.append(tocan2);
+            tdAnswer2.append(radio2);
+            tdAnswer3.append(tocan3);
+            tdAnswer3.append(radio3);
+            tdAnswer4.append(tocan4);
+            tdAnswer4.append(radio4);
+
+            trAnswer1.append(tdAnswer1Label);
+            trAnswer1.append(tdAnswer1);
+            trAnswer2.append(tdAnswer2Label);
+            trAnswer2.append(tdAnswer2);
+            trAnswer3.append(tdAnswer3Label);
+            trAnswer3.append(tdAnswer3);
+            trAnswer4.append(tdAnswer4Label);
+            trAnswer4.append(tdAnswer4);
+
+            $("#questionAreaTable").append(trAnswer1);
+            $("#questionAreaTable").append(trAnswer2);
+            $("#questionAreaTable").append(trAnswer3);
+            $("#questionAreaTable").append(trAnswer4);
+
         }else if($("#questionType option:selected").val() === "4"){
-            var correctLabel = $("<label for='correctSelect'>Je li trvdnja točna</label>");
+
+            var trTocno = $("<tr></tr>");
+
+            var tdCorrectLabel = $("<td><p>Je li trvdnja točna</p></td>");
+            var tdCorrectSelect = $("<td></td>");
             var correctSelect = $("<select id='correctSelect' name='correctSelect' />");
             var optionCorrect = $("<option></option>");
             optionCorrect.val("1");
@@ -266,35 +292,43 @@
             optionIncorrect.val("0");
             optionIncorrect.html("Netočno");
             correctSelect.append(optionIncorrect);
+            tdCorrectSelect.append(correctSelect);
 
-            $("#questionArea").append($("<br/>"));
-            $("#questionArea").append(correctLabel);
-            $("#questionArea").append(correctSelect);
+            trTocno.append(tdCorrectLabel);
+            trTocno.append(tdCorrectSelect);
+
+            $("#questionAreaTable").append(trTocno);
         }else{
-            var correctAnswerLabel = $("<label for='correctAnswer'>Unesite točan odgovor</label>");
-            var correctAnswer = $("<input type='text' id='correctAnswer' name='correctAnswer' placeholder='Upišite točan odgovor' />");
+            var trCorectAnswer = $("<tr></tr>");
+            var tdCorrectAnswerLabel = $("<td><p>Unesite točan odgovor</p></td>");
+            var tdCorrectAnswer = $("<td><input type='text' id='correctAnswer' name='correctAnswer' placeholder='Upišite točan odgovor' /></td>");
+            trCorectAnswer.append(tdCorrectAnswerLabel);
+            trCorectAnswer.append(tdCorrectAnswer);
 
-            var imageLabel = $("<label for='imageId'>Odaberite sliku (new veću od 1MB)</label>");
-            var image = $("<input type='file' id='imageId' name='imageId' accept='image/*' />");
+            var trImage = $("<tr></tr>");
+            var tdImageLabel = $("<td><p>Odaberite sliku (ne veću od 1MB)</p></td>");
+            var tdImage = $("<td><input type='file' id='imageId' name='imageId' accept='image/*' /></td>");
+            trImage.append(tdImageLabel);
+            trImage.append(tdImage);
 
-            $("#questionArea").append($("<br/>"));
-            $("#questionArea").append(correctAnswerLabel);
-            $("#questionArea").append(correctAnswer);
-            $("#questionArea").append($("<br/>"));
-            $("#questionArea").append(imageLabel);
-            $("#questionArea").append(image);
+            $("#questionAreaTable").append(trCorectAnswer);
+            $("#questionAreaTable").append(trImage);
 
         }
 
-        var explanationLabel = $("<label for='questionExplanation'>Unesite objašnjenje</label>");
-        var explanation = $("<textarea rows='5' colls='20' name='questionExplanation' id='questionExplanation'></textarea>");
-        $("#questionArea").append($("<br/>"));
-        $("#questionArea").append(explanationLabel);
-        $("#questionArea").append(explanation);
+        var trExplanation = $("<tr></tr>");
+        var tdExplanationLabel = $("<td><p>Unesite objašnjenje</p></td>");
+        var tdExplanation = $("<td><textarea rows='5' colls='20' name='questionExplanation' id='questionExplanation' placeholder='Unesite objašnjenje'></textarea></td>");
+        trExplanation.append(tdExplanationLabel);
+        trExplanation.append(tdExplanation);
 
-        $("#questionArea").append($("<br/>"));
-        var submit = $("<input type='submit' id='submit' name='submit' value='Dodaj pitanje' />");
-        $("#questionArea").append(submit);
+        $("#questionAreaTable").append(trExplanation);
+
+        var trSubmit = $("<tr></tr>");
+        var tdSubmit = $("<td><input type='submit' id='submit' name='submit' value='Dodaj pitanje' /></td>");
+        trSubmit.append($("<td></td>"));
+        trSubmit.append(tdSubmit);
+        $("#questionAreaTable").append(trSubmit);
 
     });
 </script>

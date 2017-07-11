@@ -82,14 +82,14 @@ function updateBestResult($userId, $score, $categoryName) {
         $result = $statement->fetchObject();
 
         $scoreFromDB = $result->bestResults;
-        echo "stas";
         if($score > $scoreFromDB){
-            echo "stas2 " . $score;
             $statement = $connection->prepare("UPDATE korisnici SET bestResults = :bestResults, bestResultsCategory = :category WHERE id=:userId");
             $statement->bindParam(':userId', $userId, PDO::PARAM_INT);
             $statement->bindParam(':bestResults', $score, PDO::PARAM_INT);
             $statement->bindParam(':category', $categoryName, PDO::PARAM_STR);
             $statement->execute();
+
+            updateScoreSession($score, $categoryName);
         }
     }
     catch(PDOException $e) {

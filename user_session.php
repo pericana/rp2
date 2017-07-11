@@ -7,6 +7,13 @@ function setSessionUser ($user) {
     $_SESSION["user"] = $user;
 }
 
+function updateScoreSession ($score, $category) {
+    $user = getSessionUser();
+    $user->bestScore = $score;
+    $user->bestScoreCategoryName = $category;
+    $_SESSION["user"] = $user;
+}
+
 function getSessionUser () {
     return $_SESSION["user"];
 }

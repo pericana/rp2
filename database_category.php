@@ -61,7 +61,7 @@ function getCategories() {
 
     try {
 
-        $statement = $connection->prepare("SELECT * FROM kategorije");
+        $statement = $connection->prepare("SELECT * FROM kategorije ORDER BY id");
         $statement->execute();
         $resultArray = Array();
         while($item = $statement->fetchObject()){

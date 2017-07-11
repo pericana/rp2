@@ -39,31 +39,44 @@
     require_once "header.php";
 ?>
 
-<div id="error" >
-    <?php
-    if(sizeof($errors) != 0){
-        foreach ($errors as $error){
-            echo $error . "</br>";
+    <div id="error" >
+        <?php
+        if(sizeof($errors) != 0){
+            foreach ($errors as $error){
+                echo $error . "</br>";
+            }
         }
-    }
-    ?>
-</div>
+        ?>
+    </div>
+    <div id="center">
+        <div id="login">
 
-    <div id="login">
+            <h1>Prijava</h1>
 
-        <h1>Prijava</h1>
+            <form method="post" action="login.php">
+                <table>
 
-        <form method="post" action="login.php">
-            <label for="user">Korisnicko ime ili email:</label>
-            <input name="user" type="text" id="user" placeholder="Korisnicko ime ili email"><br/>
-            <label for="pass">Lozinka:</label>
-            <input name="pass" type="password" id="pass" placeholder="Lozinka"><br/>
-            <input type="submit" value="Prijava" name="submit">
-        </form>
+                    <tr>
+                        <td><label for="user">Korisnicko ime ili email:</label></td>
+                        <td><input name="user" type="text" id="user" placeholder="Korisnicko ime ili email"></td>
+                    </tr>
 
-        <a href="registration.php" >Ako nemate korisnicki racun, stvorite novi ovdje.</a>
+                    <tr>
+                        <td><label for="pass">Lozinka:</label></td>
+                        <td><input name="pass" type="password" id="pass" placeholder="Lozinka"></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value="Prijava" name="submit"></td>
+                    </tr>
+
+                </table>
+            </form>
+
+            <a href="registration.php" style="margin-left: 158px" >Ako nemate korisnicki racun, stvorite novi ovdje.</a>
+
+        </div>
 
     </div>
-
-
 </div>

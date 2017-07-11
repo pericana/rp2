@@ -16,17 +16,21 @@
 <div id="center">
 
     <?php
-        require_once "sidebar.php";
+        require_once "user_info.php";
     ?>
 
     <div id="main">
 
         <input type="hidden" id="userId" value="<?php echo getSessionUser()->id; ?>"><!-- da u javiscript se moze uzeti id od ulogiranog korisnika-->
 
-        <h1> Kviz </h1>
+        <h3> Kviz </h3>
 
-        <p>Bodovi: <span id="scoreSpan">0</span></p>
-        <p>trenutno pitanje <span id="currectQuestionSpan">0</span> od <span id="allQuestionSpan">0</span></p>
+        <div style="margin-bottom: 50px">
+            <p style="float: left">Bodovi: <span id="scoreSpan">0</span></p>
+            <p style="float: right">trenutno pitanje <span id="currectQuestionSpan">0</span> od <span id="allQuestionSpan">0</span></p>
+        </div>
+        <br />
+
 
         <div id="dinamicContent">
 
@@ -89,6 +93,8 @@
         $("#dinamicContent").append(categorySelect);
 
         var start = $("<button id='start' class='dinamic'>Kreni</button>");
+        start.css("margin-left", "20px");
+        start.css("width", "80px");
         $("#dinamicContent").append(start);
 
         start.on("click", function () {
@@ -152,7 +158,9 @@
         $("#currectQuestionSpan").html(currentQuestionStep);
         $("#allQuestionSpan").html(questions.length);
 
-        var questionParagraph = $("<p></p>");
+        var selectedButtonForType2;
+
+        var questionParagraph = $("<p id='questionParagraph'></p>");
         questionParagraph.html(currentQuestion['question']);
 
         $("#dinamicContent").append(questionParagraph);
@@ -174,31 +182,55 @@
             $("#dinamicContent").append(answer);
         }else if(currentQuestion['questionType'] == 2){
             var answers = currentQuestion['answers'];
+            //var button1 = $("<button></button>");
+            //button1.html(answers[i]['textAnswer'])
             for(var i = 0; i < answers.length; i++){
-                var answer = $("<input />");
-                answer.attr("type", "radio");
-                answer.attr("name", "answer");
-                answer.attr("class", "answer");
-                answer.attr("value", answers[i]['isCorrect']);
-                $("#dinamicContent").append(answer);
-                $("#dinamicContent").append(answers[i]['textAnswer'] + "<br/>");
+
+                var button = $("<button></button>");
+                button.html(answers[i]['textAnswer']);
+                button.val(answers[i]['isCorrect']);
+                if(i % 2 == 0){
+                    button.css("margin-left", "0px");
+                }else{
+                    button.css("margin-right", "0px");
+                }
+                button.attr("class", "buttonSelect");
+                $("#dinamicContent").append(button);
+
+                button.on("click", function () {
+                    $(".buttonSelect").css("background-color", "");
+                    $(this).css("background-color", "gray");
+                    selectedButtonForType2 = $(this);
+                });
             }
         }else if(currentQuestion['questionType'] == 4){
-            var answer = $("<input />");
-            answer.attr("type", "radio");
-            answer.attr("name", "answer");
-            answer.attr("class", "answer");
-            answer.attr("value", "true");
-            $("#dinamicContent").append(answer);
-            $("#dinamicContent").append("Točno <br/>");
 
-            var answer2 = $("<input />");
-            answer2.attr("type", "radio");
-            answer2.attr("name", "answer");
-            answer2.attr("class", "answer");
-            answer2.attr("value", "false");
-            $("#dinamicContent").append(answer2);
-            $("#dinamicContent").append("Netočno <br/>");
+            var buttonTocno = $("<button></button>");
+            buttonTocno.html("Točno");
+            buttonTocno.val("true");
+            buttonTocno.css("margin-left", "0px");
+            buttonTocno.attr("class", "buttonSelect");
+            $("#dinamicContent").append(buttonTocno);
+
+            buttonTocno.on("click", function () {
+                $(".buttonSelect").css("background-color", "");
+                $(this).css("background-color", "gray");
+                selectedButtonForType2 = $(this);
+            });
+
+            var buttonNetocno = $("<button></button>");
+            buttonNetocno.html("Netočno");
+            buttonNetocno.val("false");
+            buttonNetocno.css("margin-right", "0px");
+            buttonNetocno.attr("class", "buttonSelect");
+            $("#dinamicContent").append(buttonNetocno);
+
+            buttonNetocno.on("click", function () {
+                $(".buttonSelect").css("background-color", "");
+                $(this).css("background-color", "gray");
+                selectedButtonForType2 = $(this);
+            });
+
         }
 
         //answer question button
@@ -209,16 +241,17 @@
         $("#dinamicContent").append(answerQuestion);
 
         answerQuestion.on("click", function () {
-            checkAnswer(currentQuestion);
+            checkAnswer(currentQuestion, selectedButtonForType2);
         });
 
     }
 
-    function checkAnswer(currentQuestion) {
+    function checkAnswer(currentQuestion, selectedButtonForType2) {
         //next question
         $("#answerButton").remove();
         $("#answer").attr("disabled", true);
         $(".answer").attr("disabled", true);
+        $(".buttonSelect").attr("disabled", true);
 
         if(currentQuestion['questionType'] == 1 || currentQuestion['questionType'] == 3) {
             var answerText = $("#answer").val();
@@ -233,47 +266,55 @@
                 $("#dinamicContent").append(correctAnswerIs);
             }
         }else if(currentQuestion['questionType'] == 2) {
-            var isCorrect = $('input[name=answer]:checked').val();
-            console.log("IS CORRECT: " + isCorrect);
+            var isCorrect;
+            if(selectedButtonForType2 == null){
+                isCorrect = 0;
+            }else{
+                isCorrect = selectedButtonForType2.val();
+            }
             if(isCorrect == 1){
                 currentScore += parseInt(currentQuestion['questionScore']);
+                selectedButtonForType2.css("background-color", "green");
             }else{
-
-                var answers = currentQuestion['answers'];
-                var correctAnswerIs = $("<p></p>");
-                var correctItem = "";
-                for(var i = 0; i < answers.length; i++){
-                    if(answers[i]['isCorrect'] == 1){
-                        correctItem = answers[i]['textAnswer'];
-                        break;
+                if(selectedButtonForType2 != null) selectedButtonForType2.css("background-color", "red");
+                var buttons = $("button.buttonSelect");
+                for(var i = 0; i < buttons.length; i++){
+                    if(buttons.eq(i).val() == 1){
+                        buttons.eq(i).css("background-color", "green");
                     }
                 }
-                correctAnswerIs.html("Točan odgovor je: " + correctItem);
-                $("#dinamicContent").append(correctAnswerIs);
             }
         }else if(currentQuestion['questionType'] == 4) {
-            var answer = $('input[name=answer]:checked').val();
+            var answer;
+            if(selectedButtonForType2 == null){
+                answer = "";
+            }else{
+                answer = selectedButtonForType2.val();
+            }
             if(answer == currentQuestion['correctAnswer']){
                 currentScore += parseInt(currentQuestion['questionScore']);
+                selectedButtonForType2.css("background-color", "green");
             }else{
-
-                var correctAnswerIs = $("<p></p>");
-                if(currentQuestion['correctAnswer'] == "true"){
-                    correctAnswerIs.html("Tvrdnja je točna.");
-                }else{
-                    correctAnswerIs.html("Tvrdnja nije točna.");
+                if(selectedButtonForType2 != null) selectedButtonForType2.css("background-color", "red");
+                var buttons = $("button.buttonSelect");
+                for(var i = 0; i < buttons.length; i++){
+                    if(buttons.eq(i).val() == currentQuestion['correctAnswer']){
+                        buttons.eq(i).css("background-color", "green");
+                    }
                 }
-                $("#dinamicContent").append(correctAnswerIs);
             }
         }
 
         $("#scoreSpan").html(currentScore);
 
-        var explanationParagraph = $("<p></p>");
+        var explanationH3 = $("<h3 style='margin-top: 20px'>Objašnjenje:</h3>");
+        var explanationParagraph = $("<p id='explanation'></p>");
         explanationParagraph.html(currentQuestion['questionExplanation']);
+        $("#dinamicContent").append(explanationH3);
         $("#dinamicContent").append(explanationParagraph);
 
         var nextQuestion = $("<button></button>");
+        nextQuestion.attr("id", "nextQuestion");
         if((currentQuestionStep) === questions.length){
             nextQuestion.html("Rezultat");
         }else{

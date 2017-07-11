@@ -53,23 +53,45 @@
             }
         ?>
     </div>
+    <div id="center">
+        <div id="login">
 
-    <div id="registration">
+            <h1>Registracija</h1>
 
-        <h1>Registracija</h1>
+            <form method="post" action="registration.php">
 
-        <form method="post" action="registration.php">
-            <label for="user">Korisnicko ime:</label>
-            <input name="user" type="text" id="user" placeholder="Korisnicko ime"><br/>
-            <label for="email">Email:</label>
-            <input name="email" type="text" id="email" placeholder="Email"><br/>
-            <label for="pass">Lozinka:</label>
-            <input name="pass" type="password" id="pass" placeholder="Lozinka"><br/>
-            <label for="pass_2">Lozinka ponovo:</label>
-            <input name="pass_2" type="password" id="pass_2" placeholder="Lozinka"><br/>
-            <input type="submit" value="Registraj me" name="submit">
-        </form>
+                <table>
 
+                    <tr>
+                        <td><label for="user">Korisnicko ime:</label></td>
+                        <td><input name="user" type="text" id="user" placeholder="Korisnicko ime"></td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="email">Email:</label></td>
+                        <td><input name="email" type="text" id="email" placeholder="Email"></td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="pass">Lozinka:</label></td>
+                        <td><input name="pass" type="password" id="pass" placeholder="Lozinka"><br/></td>
+                    </tr>
+
+                    <tr>
+                        <td><label for="pass_2">Lozinka ponovo:</label></td>
+                        <td><input name="pass_2" type="password" id="pass_2" placeholder="Lozinka"><br/></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" value="Registraj me" name="submit"></td>
+                    </tr>
+
+                </table>
+
+            </form>
+
+        </div>
     </div>
 
 </div>

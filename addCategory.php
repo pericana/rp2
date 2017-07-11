@@ -22,7 +22,7 @@
 <div id="center">
 
     <?php
-        require_once "sidebar.php";
+        require_once "user_info.php";
     ?>
 
     <div id="main">
@@ -31,11 +31,17 @@
 
         </div>
 
-        <h1> Dodajte kategoriju </h1>
+        <div id="categoryAndUseMain">
 
-        <input type="text" id="categoryName" placeholder="Ime kategorije"/><button id="addCategory">Dodaj</button>
+            <h3> Dodajte kategoriju </h3>
 
-        <div id="categories">
+            <input type="text" id="categoryName" placeholder="Ime kategorije" style="width: 300px; margin-right: 20px; margin-bottom: 20px"/><button id="addCategory" >Dodaj</button>
+
+            <h3> Postojeće kategorije </h3>
+
+            <table id="categories">
+            </table>
+
         </div>
 
     </div>
@@ -87,7 +93,12 @@
 
     $("body").on("click", "button.deleteCategory", function () {
 
-        deleteCategory($(this).val())
+        var success = confirm("Želite li zaista obrisati kategoriju?");
+
+        if(success){
+            deleteCategory($(this).val());
+        }
+
 
     });
 
@@ -96,12 +107,17 @@
         $("#categories").empty();
 
         for(var i = 0; i < categories.length; i++){
-
-            var p = $("<p>" + categories[i].category + "</p>");
+            var tr = $("<tr></tr>");
+            var td = $("<td>" + categories[i].category + "</td>");
+            td.css("width", "296px");
             var button = $("<button class='deleteCategory'>Obriši</button>");
             button.val(categories[i].id);
-            p.append(button);
-            $("#categories").append(p);
+            button.css("margin-left", "17px");
+            var td2 = $("<td></td>");
+            td2.append(button);
+            tr.append(td);
+            tr.append(td2);
+            $("#categories").append(tr);
 
         }
 
