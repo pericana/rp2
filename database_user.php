@@ -53,7 +53,7 @@ function login($nameOrEmail, $password) {
         if (!$result) {
             return "Korisničko ime i email ne postoje u bazi.";
         }else if ( $result->pass !==  $password) {
-            return "Lozinka netočna " . $result->pass . " vs " . $password;
+            return "Lozinka netočna ";
         }else{
             $user = new User();
             $user->id = $result->id;

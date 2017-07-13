@@ -1,6 +1,6 @@
 <?php
     $databaseServer = "localhost";
-    $databaseUser = "root";
-    $databasePassword = "";
-    $databaseName = "rp2";
+    $databaseUser = "student";
+    $databasePassword = "pass.mysql";
+    $databaseName = "travica";
 ?>
